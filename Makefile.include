@@ -1,0 +1,35 @@
+.DEFAULT_GOAL=all
+
+ifndef CLANG_ROOT
+$(error CLANG_ROOT not defined.)
+endif
+
+ifndef LLVM_DEV_ROOT
+$(error LLVM_DEV_ROOT not defined.)
+endif
+
+ifndef SPIR_CLANG_ROOT
+$(error SPIR_CLANG_ROOT not defined.)
+endif
+
+OCLACC_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+
+MAKE=make
+CC=$(CLANG_ROOT)/bin/clang
+CXX=$(CLANG_ROOT)/bin/clang++
+OPT=$(CLANG_ROOT)/bin/opt
+
+CFLAGS=-Wall -Werror -g -I$(OCLACC_DIR)/src/OCLAcc
+CXXFLAGS=-Wall -Werror -std=c++11 -g
+LDFLAGS=
+
+CLANG_CXXFLAGS += -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS
+CLANG_CXXINC += -I$(CLANG_ROOT)/include
+
+SPIRCC=$(SPIR_CLANG_ROOT)/bin/clang
+SPIRCXX=$(SPIR_CLANG_ROOT)/bin/clang++
+
+
+%:
+	@for b in $(SUBDIRS) ; do $(MAKE) -C $$b $@ ; done
+
