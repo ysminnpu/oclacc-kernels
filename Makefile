@@ -15,7 +15,7 @@ svg=$(patsubst %.dot,%.svg,$(dot))
 
 all: $(bc) $(llvm) $(png) $(svg)
 
-SPIRCFLAGS := -cc1 -O3 -triple spir-unknown-unknown $(SPIR) -cl-spir-compile-options "$(SPIR)" 
+SPIRCFLAGS := -cc1 -O3 -triple spir64-unknown-unknown $(SPIR) -cl-spir-compile-options "$(SPIR)"
 
 %.bc: %.ll
 	$(SPIRCC) $(SPIRCFLAGS) -emit-llvm-bc $(INC) $< -o $@
